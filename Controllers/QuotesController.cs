@@ -40,7 +40,7 @@ namespace ArrestedDevelopmentApi.Controllers
 
     // GET: api/quotes?page=1&pagesize=20
     [HttpGet]
-    public async Task<IActionResult> GetQuotes( int maxWords, string speaker, bool question = false, int page = 1, int pageSize = 10)
+    public async Task<IActionResult> GetQuotes( int id, int maxWords, string speaker, bool question = false, int page = 1, int pageSize = 10)
     {
       IQueryable<Quote> query = _db.Quotes.AsQueryable();
 
@@ -55,6 +55,10 @@ namespace ArrestedDevelopmentApi.Controllers
       if (maxWords != 0)
       {  
         query = query.Where(entry => entry.NumberOfWords <= maxWords);
+      }
+      if (id != 0)
+      {  
+        query = query.Where(entry => entry.QuoteId  == id);
       }
         // Calculate the number of items to skip based on the page size and requested page.
         int skip = (page - 1) * pageSize;
